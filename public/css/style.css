@@ -1,0 +1,157 @@
+body {
+    top: 0px;
+    padding-top: 0px;
+    margin-top: 0px;
+    padding-bottom: 40px;
+    background: url('/img/bg.jpg') repeat;
+}
+
+#header{
+    background: url('/img/header.png');
+    height: 151px;
+}
+
+#content{
+    background-color: #fff;
+}
+
+#footer{
+    background-color: #13344e;
+    height: 80px;
+    color: #fff;
+    text-align: center;
+    font-size: 8pt;
+    padding:0px;
+}
+
+#footer a{
+    color: #f9f2f4;
+}
+
+#footer p{
+    padding: 0;
+    margin: 2px;
+}
+
+#text-footer{
+    padding-top: 12px;
+}
+
+.zf-green {
+    color: #68b604;
+}
+
+.btn-success {
+  background-color: #57a900;
+  background-image: -moz-linear-gradient(top, #70d900, #57a900);
+  background-image: -ms-linear-gradient(top, #70d900, #57a900);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#70d900), to(#57a900));
+  background-image: -webkit-linear-gradient(top, #70d900, #57a900);
+  background-image: -o-linear-gradient(top, #70d900, #57a900);
+  background-image: linear-gradient(top, #70d900, #57a900);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#70d900', endColorstr='#57a900', GradientType=0);
+}
+
+.btn-success:hover,
+.btn-success:active,
+.btn-success.active,
+.btn-success.disabled,
+.btn-success[disabled] {
+  background-color: #57a900;
+}
+
+.btn-success:active, .btn-success.active {
+  background-color: #57a900;
+}
+
+div.container{
+    width: 960px;
+}
+
+div.container a.brand {
+    background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
+    margin-left: 0;
+    padding: 8px 20px 12px 40px;
+}
+
+fieldset{
+    margin-top: 20px;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-bottom: 10px;
+}
+
+input{
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type='radio']{
+    display: inline;
+}
+
+label{
+    display: inline;
+    margin-top: 5px;
+}
+
+select{
+    display: block;
+    margin-bottom: 10px;
+}
+
+#submit{
+    margin-top: 30px;
+    margin-left: 10px; 
+}
+
+#adicionarDependente{
+    float: right;
+    margin-right: 10px;
+
+}
+
+#err{
+    top: 170px;
+    left: 730px;
+    min-height: 10px;
+    width: 400px;
+    background-color: tomato;
+    position: fixed;
+    padding: 20px;
+}
+
+.invalid-input{
+    border-color: #f00;
+    background-color: #f99;
+}
+
+#help{
+    top: 255px;
+    left: 730px;
+    min-height: 10px;
+    width: 400px;
+    background-color: yellowgreen;
+    position: fixed;
+    padding: 20px;
+}
+
+.messages{
+    text-align: center;
+}
+
+#login{
+    padding: 10px;
+}
+
+#menu{
+    max-height: 1px;
+}
+
+.btns{
+    max-width: 15px;
+}
+
+.center{
+    text-align: center;
+}

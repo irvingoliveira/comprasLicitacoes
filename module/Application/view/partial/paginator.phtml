@@ -1,0 +1,52 @@
+<?php if ($this->pageCount): ?>
+    <div class="center">
+        <ul class="pagination pagination-sm">
+            <!-- Previous page link -->
+            <?php if (isset($this->previous)): ?>
+                <li>
+                    <a href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->previous;
+                       if(isset($this->orderby))echo '&orderby='.$this->orderby;?>">
+                        <<
+                    </a>
+                </li>
+            <?php else: ?>
+                <li class="disabled">
+                    <a href="#">
+                        <<
+                    </a>
+                </li>
+            <?php endif; ?>
+            <!-- Numbered page links -->
+            <?php foreach ($this->pagesInRange as $page): ?>
+                <?php if ($page != $this->current): ?>
+                    <li>
+                        <a href="<?php echo $this->url($this->route);?>?page=<?php echo $page; 
+                        if(isset($this->orderby))echo '&orderby='.$this->orderby;?>">
+                            <?php echo $page; ?>
+                        </a>
+                    </li>
+                <?php else: ?>
+                    <li class="active">
+                        <a href="#"><?php echo $page; ?></a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+            <!-- Next page link -->
+            <?php if (isset($this->next)): ?>
+                <li>
+                    <a href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->next; 
+                    if(isset($this->orderby))echo '&orderby='.$this->orderby;?>">
+                        >>
+                    </a>
+                </li>
+            <?php else: ?>
+                <li class="disabled">
+                    <a href="#">
+                        >>
+                    </a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+<?php endif; ?>

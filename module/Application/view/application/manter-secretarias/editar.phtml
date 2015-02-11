@@ -1,0 +1,35 @@
+<?php 
+
+if($this->secretaria!=NULL){
+    $id = $this->secretaria->getIdSecretaria();
+    $nome = $this->secretaria->getNome();
+}  
+?>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Adicionar nova secretaria</h3>
+            </div>
+            <?php if($this->secretaria == NULL):?>
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo $this->url('secretaris', array('action' => 'adicionar')); ?>">
+            <?php else:?>
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo $this->url('secretarias', array('action' => 'editar', 'id' => $id)); ?>">
+            <?php endif;?>
+                    
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="descricaoTxt" class="col-lg-3 col-md-3 control-label">Descrição:</label>
+                    <div class="col-lg-9 col-md-9">
+                        <input type="text" name="descricaoTxt" class="form-control" 
+                               id="descricaoTxt" placeholder="Secretaria Municipal de Exemplo"
+                               value="<?=$nome?>">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-footer center">
+                <button type="submit" class="btn btn-default">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>

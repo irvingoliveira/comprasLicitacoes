@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-md-6 col-sm-offset-3">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Secretarias</h3>
+            </div>
+            <div class="panel-body">
+                <?if($this->sucesso):?>
+                    <p>Secretaria removida com sucesso!</p>
+                <?endif;?>
+            </div>
+            <div class="panel-footer">
+                <a href="<?=$this->url('secretarias', array('action' => 'index'))?>" class="btn btn-success" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
