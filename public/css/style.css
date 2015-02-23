@@ -149,9 +149,13 @@ select{
 }
 
 .btns{
-    max-width: 15px;
+    width: 100px;
 }
 
 .center{
     text-align: center;
+}
+
+.invalid-input{
+    background-color: #fff;
 }

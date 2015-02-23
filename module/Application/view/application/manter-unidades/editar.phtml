@@ -12,24 +12,86 @@ if($this->unidade!=NULL){
                 <h3 class="panel-title">Adicionar nova unidade</h3>
             </div>
             <?php if($this->unidade == NULL):?>
-                <form class="form-horizontal" role="form" method="POST" action="<?php echo $this->url('unidades', array('action' => 'adicionar')); ?>">
+                <form class="form-horizontal" id="unidade-form" role="form" method="POST" action="<?php echo $this->url('unidades', array('action' => 'adicionar')); ?>">
             <?php else:?>
-                <form class="form-horizontal" role="form" method="POST" action="<?php echo $this->url('unidades', array('action' => 'editar', 'id' => $id)); ?>">
+                <form class="form-horizontal" id="unidade-form" role="form" method="POST" action="<?php echo $this->url('unidades', array('action' => 'editar', 'id' => $id)); ?>">
             <?php endif;?>
                     
             <div class="panel-body">
                 <div class="form-group">
                     <label for="descricaoTxt" class="col-lg-3 col-md-3 control-label">Descrição:</label>
                     <div class="col-lg-9 col-md-9">
-                        <input type="text" name="descricaoTxt" class="form-control" 
+                        <input type="text" name="descricaoTxt" id="descricaoTxt" class="form-control" 
                                id="descricaoTxt" placeholder="Unidade de exemplo"
                                value="<?=$descricao?>">
                     </div>
                 </div>
             </div>
             <div class="panel panel-footer center">
+                <a href="<?=$this->url('unidades', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
                 <button type="submit" class="btn btn-default">Enviar</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<div id="dialog" title="Erro">
+
+</div>
+
+<? $this->headScript()->captureStart(); ?>
+
+$(document).ready(function(){
+    $('input[type=text]').blur(function() {
+        $(this).val($(this).val().toUpperCase());
+    });
+ 
+    $( "#dialog" ).dialog({
+        autoOpen: false,
+        modal: true,
+        close: function( event, ui ) {
+            $( this ).empty();
+        },
+        buttons: {
+            Ok: function() {
+                $( this ).empty();
+                $( this ).dialog( "close" );
+            }
+        },
+        show: {
+            effect: "blind",
+            duration: 100
+        },
+        hide: {
+            effect: "blind",
+            duration: 100
+        }
+    });
+
+    $('#unidade-form').validate({
+        debug: false,
+        onkeyup: false,
+        errorClass: "invalid-input",
+        errorPlacement: function(error,element) {
+            error.appendTo("#dialog");
+            $( "#dialog" ).dialog('open');
+            return true;
+        },
+        
+    });
+    
+    $('#descricaoTxt')
+            .rules("add", {
+                required: true,
+                minlength: 3,
+                maxlength: 100,
+                messages: {
+                    required: "A descrição da unidade é obrigatória.",
+                    minlength: "A descrição da unidade deve ter no mínimo 5 caracteres.",
+                    maxlength: "A descrição da unidade deve ter no máximo 100 caracteres.",
+                }
+        });
+});
+
+<? $this->headScript()->captureEnd(); ?>

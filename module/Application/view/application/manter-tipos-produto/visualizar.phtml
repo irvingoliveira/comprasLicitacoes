@@ -1,0 +1,45 @@
+<?php
+
+if($this->tipoProduto){
+    $id = $this->tipoProduto->getIdTipoProduto();
+    $descricao = $this->tipoProduto->getDescricao();
+    $tipoPai = $this->tipoProduto->getTipoPai();
+}
+
+?>
+<div class="row">
+    <div class="col-md-10 col-sm-offset-1">
+        <div class="panel">
+            <div class="panel-heading list-group">
+                <h3 class="panel-title">Visualizar secretaria</h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Id:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="id"><?=$id;?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Descrição:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="descricao"><?=$descricao;?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Tipo de produto pai:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="tipoPai"><?=$tipoPai;?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer center">
+                <a href="<?=$this->url('tiposproduto', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -81,6 +81,20 @@ return array(
                     ),
                 ),
             ),
+            'tiposproduto' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/tiposproduto[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application/Controller/TiposProduto',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'unidades' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -151,6 +165,7 @@ return array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Operadores' => 'Application\Controller\ManterOperadoresController',
             'Application\Controller\Secretarias' => 'Application\Controller\ManterSecretariasController',
+            'Application\Controller\TiposProduto' => 'Application\Controller\ManterTiposProdutoController',
             'Application\Controller\Unidades' => 'Application\Controller\ManterUnidadesController',
         ),
     ),

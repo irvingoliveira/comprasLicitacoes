@@ -68,4 +68,7 @@ class TipoProduto {
         $this->tipoPai = $tipoPai;
     }
 
+    public function __toString() {
+        return $this->descricao;
+    }
 }

@@ -40,7 +40,7 @@ class SecretariaFilter extends InputFilter{
     }
     
     public function getNomeTxtInput(){
-        $nomeFilter = new Input('nomeTxt');
+        $nomeInputFilter = new Input('nomeTxt');
 
         $nomeStringLength = new Validator\StringLength(array('max' => 150, 'min' => 3));
         $nomeStringLength->setMessages(array(
@@ -53,15 +53,15 @@ class SecretariaFilter extends InputFilter{
         $nomeNotEmpty = new Validator\NotEmpty();
         $nomeNotEmpty->setMessage('O campo nome é obrigatório e não ser vazio.');
         
-        $nomeFilter->getValidatorChain()
-                ->attach($nomeStringLength)
-                ->attach($nomeNotEmpty);
-        $nomeFilter->getFilterChain()
-                ->attach(new Filter\HtmlEntities())
-                ->attach(new Filter\StringTrim())
-                ->attach(new Filter\StripTags());
+        $nomeInputFilter->getValidatorChain()
+                        ->attach($nomeStringLength)
+                        ->attach($nomeNotEmpty);
+        $nomeInputFilter->getFilterChain()
+                        ->attach(new Filter\HtmlEntities())
+                        ->attach(new Filter\StringTrim())
+                        ->attach(new Filter\StripTags());
 
-        return $nomeFilter;
+        return $nomeInputFilter;
     }
     
     public function preencherDados(){

@@ -40,7 +40,7 @@ class UnidadeFilter extends InputFilter{
     }
     
     public function getDescricaoTxtInput(){
-        $descricaoFilter = new Input('descricaoTxt');
+        $descricaoInputFilter = new Input('descricaoTxt');
 
         $descricaoStringLength = new Validator\StringLength(array('max' => 100, 'min' => 3));
         $descricaoStringLength->setMessages(array(
@@ -53,15 +53,15 @@ class UnidadeFilter extends InputFilter{
         $descricaoNotEmpty = new Validator\NotEmpty();
         $descricaoNotEmpty->setMessage('O campo descrição é obrigatório e não ser vazio.');
         
-        $descricaoFilter->getValidatorChain()
-                ->attach($descricaoStringLength)
-                ->attach($descricaoNotEmpty);
-        $descricaoFilter->getFilterChain()
-                ->attach(new Filter\HtmlEntities())
-                ->attach(new Filter\StringTrim())
-                ->attach(new Filter\StripTags());
+        $descricaoInputFilter->getValidatorChain()
+                             ->attach($descricaoStringLength)
+                             ->attach($descricaoNotEmpty);
+        $descricaoInputFilter->getFilterChain()
+                             ->attach(new Filter\HtmlEntities())
+                             ->attach(new Filter\StringTrim())
+                             ->attach(new Filter\StripTags());
 
-        return $descricaoFilter;
+        return $descricaoInputFilter;
     }
     
     public function preencherDados(){

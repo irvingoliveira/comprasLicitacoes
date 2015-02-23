@@ -37,6 +37,7 @@
 
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/jquery-ui.css')
                         ->prependStylesheet($this->basePath() . '/css/960_16_col.css')
                         ->prependStylesheet($this->basePath() . '/css/style.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
@@ -45,6 +46,7 @@
 
         <!-- Scripts -->
         <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/jquery-ui.custom.min.js')
             ->prependFile($this->basePath() . '/js/jquery.mask.min.js')
             ->prependFile($this->basePath() . '/js/additional-methods.min.js')
             ->prependFile($this->basePath() . '/js/jquery.validate.min.js')
@@ -59,7 +61,7 @@
         <div class="container_16" id="header"></div>
         <div class="container_16" id="content">
             <?php if($this->usuarioNivel != 'guest'): ?>
-                <div class="navbar navbar-collapse" id="menu">
+                <div class="navbar navbar-default" id="menu">
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="#">Preços</a>
@@ -69,11 +71,13 @@
                                 Produtos <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">Cadastro de produtos</a></li>
-                                <li><a href="#">Cadastro de tipos de produto</a></li>
+                                <li><a href="/tiposproduto">Cadastro de tipos de produto</a></li>
                                 <li><a href="/unidades">Cadastro de unidades de medida</a></li>
                             </ul>
                         </li>
-                        <li ><a href="#">Secretarias</a></li>
+                        <li <?=$this->MenuAtivo($this->url('secretarias'))?>>
+                            <a href="/secretarias">Secretarias</a>
+                        </li>
                         <li><a href="#">Usuários</a></li>
                         <li><a href="/logout">Sair</a></li>
                     </ul>
