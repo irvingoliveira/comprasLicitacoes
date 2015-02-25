@@ -1,9 +1,10 @@
 <?php
 
-if($this->tipoProduto){
-    $id = $this->tipoProduto->getIdTipoProduto();
-    $descricao = $this->tipoProduto->getDescricao();
-    $tipoPai = $this->tipoProduto->getTipoPai();
+if($this->produto){
+    $id = $this->produto->getIdProduto();
+    $descricao = $this->produto->getDescricao();
+    $tipo = $this->produto->getTipo();
+    $unidade = $this->produto->getUnidade();
 }
 
 ?>
@@ -11,7 +12,7 @@ if($this->tipoProduto){
     <div class="col-md-10 col-sm-offset-1">
         <div class="panel">
             <div class="panel-heading list-group">
-                <h3 class="panel-title">Visualizar tipo de produto</h3>
+                <h3 class="panel-title">Visualizar produto</h3>
             </div>
             <div class="panel-body">
                 <div>
@@ -31,14 +32,22 @@ if($this->tipoProduto){
             </div>
             <div class="panel-body">
                 <div>
-                    <p class="col-lg-3 col-md-3 list-group-item-text">Tipo de produto pai:</p>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Tipo do produto:</p>
                     <div class="col-lg-9 col-md-9">
-                        <p class="list-group-item-text" id="tipoPai"><?=$tipoPai;?></p>
+                        <p class="list-group-item-text" id="tipoPai"><?=$tipo;?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Unidade de medida:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="tipoPai"><?=$unidade;?></p>
                     </div>
                 </div>
             </div>
             <div class="panel-footer center">
-                <a href="<?=$this->url('tiposproduto', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
+                <a href="<?=$this->url('produtos', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
             </div>
         </div>
     </div>

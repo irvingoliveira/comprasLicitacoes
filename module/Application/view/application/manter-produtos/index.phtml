@@ -2,15 +2,15 @@
     <div class="col-md-10 col-sm-offset-1">
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">Tipos de produto</h3>
+                <h3 class="panel-title">Produtos</h3>
             </div>
             <div class="panel-body">
                 <div class="col-sm-2">
-                    <a href="<?=$this->url('tiposproduto', array('action' => 'adicionar'))?>" class="btn btn-success btn-add" title="Novo"><span class="glyphicon glyphicon-plus"></span>Novo tipo de produto</a>
+                    <a href="<?=$this->url('produtos', array('action' => 'adicionar'))?>" class="btn btn-success btn-add" title="Novo"><span class="glyphicon glyphicon-plus"></span>Novo produto</a>
                 </div>
-                <form method="GET" action="<?=$this->url('tiposproduto', array('action' => 'buscar'))?>">
+                <form method="GET" action="<?=$this->url('produtos', array('action' => 'buscar'))?>">
                     <div class="col-sm-offset-4 col-sm-5">
-                        <input type="text" name="busca" class="form-control" placeholder="Pesquisar tipos de produto" maxlength="150">
+                        <input type="text" name="busca" class="form-control" placeholder="Pesquisar produtos" maxlength="150">
                     </div>
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
@@ -20,17 +20,19 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>Descricao</th>
-                        <th>Tipo pai</th>
+                        <th>Unidade</th>
+                        <th>Tipo</th>
                         <th>&nbsp;</th>
                     </tr>
-                    <? foreach ($this->tiposProduto as $key => $tipoProduto): ?>
+                    <? foreach ($this->produtos as $key => $produto): ?>
                         <tr>
-                            <td class="col-sd-2"><?= $tipoProduto->getDescricao() ?></td>               
-                            <td class="col-sd-2"><?= $tipoProduto->getTipoPai() ?></td>               
+                            <td class="col-sd-2"><?= $produto->getDescricao() ?></td>               
+                            <td class="col-sd-2"><?= $produto->getUnidade() ?></td>               
+                            <td class="col-sd-2"><?= $produto->getTipo() ?></td>               
                             <td class="col-sd-2 btns">
-                                <a class="btn btn-xs btn-info" title="Visualizar" href="/tiposproduto/visualizar/<?=$tipoProduto->getIdTipoProduto()?>"><span class="glyphicon glyphicon-new-window"></span></a>
-                                <a class="btn btn-xs btn-warning" title="Editar" href="/tiposproduto/editar/<?=$tipoProduto->getIdTipoProduto()?>"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-xs btn-danger" title="Excluir" href="/tiposproduto/excluir/<?=$tipoProduto->getIdTipoProduto()?>"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                                <a class="btn btn-xs btn-info" title="Visualizar" href="/produtos/visualizar/<?=$produto->getIdProduto()?>"><span class="glyphicon glyphicon-new-window"></span></a>
+                                <a class="btn btn-xs btn-warning" title="Editar" href="/produtos/editar/<?=$produto->getIdProduto()?>"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-xs btn-danger" title="Excluir" href="/produtos/excluir/<?=$produto->getIdProduto()?>"><span class="glyphicon glyphicon-floppy-remove"></span></a>
                             </td>
                         </tr>
                     <? endforeach; ?>
@@ -40,21 +42,21 @@
                 // add at the end of the file after the table
                 echo $this->paginationControl(
                         // the paginator object
-                        $this->tiposProduto,
+                        $this->produtos,
                         // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
                         'sliding',
                         // the partial to use to render the control
-                        array('partial/paginator.phtml', 'TiposProduto'),
+                        array('partial/paginator.phtml', 'Produtos'),
                         // the route to link to when a user clicks a control link
                         array(
-                    'route' => 'tiposproduto',
+                    'route' => 'produtos',
                     'orderby' => $this->orderby,
                         )
                 );
                 ?>
                 <?php if(isset($_GET['busca'])):?>
                     <div class="panel-footer center">
-                        <a href="<?=$this->url('tiposproduto', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
+                        <a href="<?=$this->url('produtos', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
                     </div>
                 <?php endif;?>
             </div>

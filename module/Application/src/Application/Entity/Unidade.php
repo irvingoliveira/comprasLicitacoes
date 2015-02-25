@@ -51,5 +51,9 @@ class Unidade {
     public function setDescricao($descricao) {
         $this->descricao = $descricao;
     }
+    
+    public function __toString() {
+        return $this->descricao;
+    }
 
 }

@@ -66,11 +66,13 @@
                         <li>
                             <a href="#">Preços</a>
                         </li>
-                        <li <?=$this->MenuAtivo($this->url('unidades'))?>>
+                        <li <?=$this->MenuAtivo($this->url('unidades'))?>
+                            <?=$this->MenuAtivo($this->url('tiposproduto'))?>
+                            <?=$this->MenuAtivo($this->url('produtos'))?>>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Produtos <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Cadastro de produtos</a></li>
+                                <li><a href="/produtos">Cadastro de produtos</a></li>
                                 <li><a href="/tiposproduto">Cadastro de tipos de produto</a></li>
                                 <li><a href="/unidades">Cadastro de unidades de medida</a></li>
                             </ul>

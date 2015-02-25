@@ -81,6 +81,20 @@ return array(
                     ),
                 ),
             ),
+            'produtos' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/produtos[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application/Controller/Produtos',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'tiposproduto' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -164,6 +178,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Operadores' => 'Application\Controller\ManterOperadoresController',
+            'Application\Controller\Produtos' => 'Application\Controller\ManterProdutosController',
             'Application\Controller\Secretarias' => 'Application\Controller\ManterSecretariasController',
             'Application\Controller\TiposProduto' => 'Application\Controller\ManterTiposProdutoController',
             'Application\Controller\Unidades' => 'Application\Controller\ManterUnidadesController',
