@@ -151,7 +151,11 @@ abstract class GenericDAO implements DAOInterface {
                                                 . $this->getNomeDaClasse());
         $objeto = $objetos->find($id);
         while (TRUE) {
-            $objeto->{$params->key()} = $params->current();
+            if($params->current() == 'NULL'){
+                $objeto->{$params->key()} = NULL;   
+            }  else {
+                $objeto->{$params->key()} = $params->current();
+            }
             if ($params->next() == NULL) {
                 break;
             }

@@ -81,6 +81,34 @@ return array(
                     ),
                 ),
             ),
+            'operadores' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/operadores[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application/Controller/Operadores',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
+            'precos' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/precos[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application/Controller/Precos',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'produtos' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -178,6 +206,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Operadores' => 'Application\Controller\ManterOperadoresController',
+            'Application\Controller\Precos' => 'Application\Controller\ManterPrecosController',
             'Application\Controller\Produtos' => 'Application\Controller\ManterProdutosController',
             'Application\Controller\Secretarias' => 'Application\Controller\ManterSecretariasController',
             'Application\Controller\TiposProduto' => 'Application\Controller\ManterTiposProdutoController',

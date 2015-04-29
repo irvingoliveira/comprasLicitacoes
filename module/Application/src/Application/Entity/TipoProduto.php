@@ -31,7 +31,7 @@ class TipoProduto {
      * @ORM\ManyToOne(targetEntity="TipoProduto")
      * @ORM\JoinColumn(name="TipoProduto_idTipoProduto", 
      *                 referencedColumnName="idTipoProduto", 
-     *                 nullable=false)
+     *                 nullable=true)
      * @var TipoProduto
      */
     private $tipoPai;

@@ -23,7 +23,7 @@ class Preco {
      */
     private $idPreco;
     /**
-     * @ORM\Column(type="double",nullable=false)
+     * @ORM\Column(type="float",nullable=false)
      * @var double
      */
     private $valor;

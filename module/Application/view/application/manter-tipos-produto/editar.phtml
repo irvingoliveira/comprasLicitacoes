@@ -3,7 +3,10 @@
 if($this->tipoProduto!=NULL){
     $id = $this->tipoProduto->getIdTipoProduto();
     $descricao = $this->tipoProduto->getDescricao();
-    $_tipoProduto = $this->tipoProduto->getTipoPai()->getDescricao();
+    if($this->tipoProduto->getTipoPai())
+        $_tipoProduto = $this->tipoProduto->getTipoPai()->getDescricao();
+    else
+        $_tipoProduto = NULL;
 }  
 
 ?>
@@ -62,7 +65,7 @@ if($this->tipoProduto!=NULL){
 <? $this->headScript()->captureStart(); ?>
 
 $(document).ready(function(){
-    $('input[type=text]').blur(function() {
+    $('input[type=text]').keyup(function() {
         $(this).val($(this).val().toUpperCase());
     });
  

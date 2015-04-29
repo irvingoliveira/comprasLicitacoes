@@ -113,4 +113,8 @@ class Produto {
     public function getPrecos(){
         return $this->listaPrecos->toArray();
     }
+    
+    public function __toString() {
+        return $this->descricao;
+    }
 }

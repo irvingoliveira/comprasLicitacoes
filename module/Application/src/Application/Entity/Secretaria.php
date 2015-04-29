@@ -53,5 +53,9 @@ class Secretaria {
     public function setNome($nome) {
         $this->nome = $nome;
     }
+    
+    public function __toString() {
+        return $this->nome;
+    }
 
 }

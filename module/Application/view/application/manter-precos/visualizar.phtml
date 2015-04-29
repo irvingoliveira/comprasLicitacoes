@@ -1,0 +1,70 @@
+<?php
+
+if($this->preco){
+    $id = $this->preco->getIdPreco();
+    $produto = $this->preco->getProduto();
+    $valor = $this->preco->getValor();
+    $pregao = $this->preco->getPregao();
+    $dataPregao = $this->preco->getDataPregao();
+    $unidade = $this->preco->getProduto()->getUnidade();
+}
+
+?>
+<div class="row">
+    <div class="col-md-10 col-sm-offset-1">
+        <div class="panel">
+            <div class="panel-heading list-group">
+                <h3 class="panel-title">Visualizar preço</h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Id:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="id"><?=$id;?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Produto:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="produto">
+                            <?=$produto->getTipo().' - '.$produto;?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Valor unitário:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="valor">
+                            R$<?=  number_format($valor, 2, ',', '.')?> por <?=$unidade?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Pregão:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="pregao"><?=$pregao;?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p class="col-lg-3 col-md-3 list-group-item-text">Data do pregão:</p>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="list-group-item-text" id="dataPregao">
+                            <?=$dataPregao->format('d/m/Y');?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer center">
+                <a href="<?=$this->url('precos', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>

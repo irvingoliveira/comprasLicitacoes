@@ -1,0 +1,162 @@
+<?php 
+
+if($this->preco!=NULL){
+    $acao = 'Adicionar';
+    $id = $this->preco->getIdPreco();
+    $_produto = $this->preco->getProduto();
+    $valor = $this->preco->getValor();
+    $pregao = $this->preco->getPregao();
+    $dataPregao = $this->preco->getDataPregao()->format('d/m/Y');
+} else {
+    $acao = 'Editar';
+}
+
+?>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title"><?=$acao?> preço</h3>
+            </div>
+            <?php if($this->preco == NULL):?>
+                <form class="form-horizontal" id="preco-form" role="form" method="POST" action="<?php echo $this->url('precos', array('action' => 'adicionar')); ?>">
+            <?php else:?>
+                <form class="form-horizontal" id="preco-form" role="form" method="POST" action="<?php echo $this->url('precos', array('action' => 'editar', 'id' => $id)); ?>">
+            <?php endif;?>
+                    
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="produtoSlct" class="col-lg-3 col-md-3 control-label">Produto:</label>
+                    <div class="col-lg-9 col-md-9">
+                        <select name="produtoSlct" class="form-control" id="tipoSlct">
+                            <option>----Selecione um produto----</option>
+                            <?foreach ($this->produtos as $produto):?>
+                                <?if($_produto == $produto):?>
+                                    <option value="<?=$produto->getIdProduto()?>" 
+                                    selected="selected"><?=$produto->getTipo().
+                                    ' - '.$produto->getDescricao()?></option>
+                                <?else:?>
+                                    <option value="<?=$produto->getIdProduto()?>">
+                                    <?=$produto->getTipo().
+                                    ' - '.$produto->getDescricao()?></option>
+                                <?endif;?>
+                            <?  endforeach;?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="valorTxt" class="col-lg-3 col-md-3 control-label">Valor unitário:</label>
+                    <div class="col-lg-9 col-md-9">
+                        <input type="text" name="valorTxt" class="form-control" 
+                               id="valorTxt" placeholder="00000,00"
+                               value="<?=$valor?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pregaoTxt" class="col-lg-3 col-md-3 control-label">Pregão:</label>
+                    <div class="col-lg-9 col-md-9">
+                        <input type="text" name="pregaoTxt" class="form-control" 
+                               id="pregaoTxt" placeholder="000000000"
+                               value="<?=$pregao?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dataPregaoTxt" class="col-lg-3 col-md-3 control-label">Data do pregão:</label>
+                    <div class="col-lg-9 col-md-9">
+                        <input type="text" name="dataPregaoTxt" class="form-control" 
+                               id="dataPregaoTxt" placeholder="31/02/1988"
+                               value="<?=$dataPregao?>">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-footer center">
+                <a href="<?=$this->url('precos', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
+                <button type="submit" class="btn btn-default">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialog" title="Erro">
+
+</div>
+
+<? $this->headScript()->captureStart(); ?>
+
+$(document).ready(function(){
+    $('input[type=text]').blur(function() {
+        $(this).val($(this).val().toUpperCase());
+    });
+ 
+    $( "#dialog" ).dialog({
+        autoOpen: false,
+        modal: true,
+        close: function( event, ui ) {
+            $( this ).empty();
+        },
+        buttons: {
+            Ok: function() {
+                $( this ).empty();
+                $( this ).dialog( "close" );
+            }
+        },
+        show: {
+            effect: "blind",
+            duration: 100
+        },
+        hide: {
+            effect: "blind",
+            duration: 100
+        }
+    });
+
+    $('#preco-form').validate({
+        debug: false,
+        onkeyup: false,
+        errorClass: "invalid-input",
+        errorPlacement: function(error,element) {
+            error.appendTo("#dialog");
+            $( "#dialog" ).dialog('open');
+            return true;
+        },
+        
+    });
+    
+    $('#valorTxt').mask("#.###.##0,00", {reverse: true});
+    $('#valorTxt')
+        .rules("add", {
+            required: true,
+            minlength: 5,
+            maxlength: 20,
+            messages: {
+                required: "O valor do produto é obrigatório.<br>",
+                minlength: "O valor do produto deve ter no mínimo 5 caracteres.<br>",
+                maxlength: "O valor do produto deve ter no máximo 12 caracteres.<br>",
+            }
+        });
+    
+    $('#pregaoTxt')
+            .rules("add", {
+                required: false,
+                minlength: 3,
+                maxlength: 12,
+                messages: {
+                    minlength: "O pregão deve ter no mínimo 5 caracteres.<br>",
+                    maxlength: "O pregão deve ter no máximo 12 caracteres.<br>",
+                }
+    });
+    
+    $('#dataPregaoTxt').mask('00/00/0000', {clearIfNotMatch: true}, {placeholder:"__/__/____"});
+    $('#dataPregaoTxt')
+        .rules("add", {
+            required: true,
+            dateBR: true,
+            messages: {
+                required: "A data do pregão é obrigatória.<br>",
+                dateBR: "A data do pregão está preenchida em um formato inválido.<br>",
+            }
+        });
+});
+
+<? $this->headScript()->captureEnd(); ?>
+

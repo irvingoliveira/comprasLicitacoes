@@ -16,77 +16,74 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace Application\Controller;
 
 use Application\DAL\ProdutoDAO;
 use Application\DAL\TipoProdutoDAO;
 use Application\DAL\UnidadeDAO;
 use Application\Filters\ProdutoFilter;
-
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\Iterator;
 use Zend\View\Model\ViewModel;
-
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Description of ManterProdutosController
  *
  * @author Irving Fernando de Medeiros Oliveira
  */
-class ManterProdutosController extends AbstractActionController{
+class ManterProdutosController extends AbstractActionController {
+
     public function indexAction() {
-         $request = $this->getRequest();
+        $produtoDAO = new ProdutoDAO($this->getServiceLocator());
 
-        if (!$request->isPost()) {
-            $produtoDAO = new ProdutoDAO($this->getServiceLocator());
+        $ormPaginator = new ORMPaginator($produtoDAO->lerTodos());
+        $ormPaginatorIterator = $ormPaginator->getIterator();
 
-            $ormPaginator = new ORMPaginator($produtoDAO->lerTodos());
-            $ormPaginatorIterator = $ormPaginator->getIterator();
+        $adapter = new Iterator($ormPaginatorIterator);
 
-            $adapter = new Iterator($ormPaginatorIterator);
-
-            $paginator = new Paginator($adapter);
-            $paginator->setDefaultItemCountPerPage(10);
-            $page = (int) $this->params()->fromQuery('page');
-            if ($page) {
-                $paginator->setCurrentPageNumber($page);
-            }
-            return array(
-                'produtos' => $paginator,
-                'orderby' => $this->params()->fromQuery('orderby'),
-            );
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(10);
+        $page = (int) $this->params()->fromQuery('page');
+        if ($page) {
+            $paginator->setCurrentPageNumber($page);
         }
+        return array(
+            'produtos' => $paginator,
+            'orderby' => $this->params()->fromQuery('orderby'),
+        );
     }
-    
+
     public function adicionarAction() {
         $request = $this->getRequest();
-        
+
         $tipoProdutoDAO = new TipoProdutoDAO($this->getServiceLocator());
         $produtoDAO = new ProdutoDAO($this->getServiceLocator());
         $unidadeDAO = new UnidadeDAO($this->getServiceLocator());
-        
-        if($tipoProdutoDAO->getQtdRegistros() == 0){
+
+        if ($tipoProdutoDAO->getQtdRegistros() == 0) {
             $mensagem = "Para cadastrar um produto você deve primeiramente cad";
             $mensagem.= "astrar um tipo de produto.";
             $this->flashMessenger()->addErrorMessage($mensagem);
             $this->redirect()->toRoute('produtos');
             return;
         }
-        
-        if($unidadeDAO->getQtdRegistros() == 0){
+
+        if ($unidadeDAO->getQtdRegistros() == 0) {
             $mensagem = "Para cadastrar um produto você deve primeiramente cad";
             $mensagem.= "astrar uma unidade.";
             $this->flashMessenger()->addErrorMessage($mensagem);
             $this->redirect()->toRoute('produtos');
             return;
         }
-        
-        if(!$request->isPost()){
+
+        if (!$request->isPost()) {
             $tiposProduto = $tipoProdutoDAO->lerRepositorio();
             $unidades = $unidadeDAO->lerRepositorio();
-            
+
             $viewModel = new ViewModel(array(
                 'tiposProduto' => $tiposProduto,
                 'unidades' => $unidades,
@@ -94,13 +91,12 @@ class ManterProdutosController extends AbstractActionController{
             $viewModel->setTemplate('application/manter-produtos/editar.phtml');
             return $viewModel;
         }
-        
+
         $descricaoTxt = $request->getPost('descricaoTxt');
         $tipoSlct = $request->getPost('tipoSlct');
         $unidadeSlct = $request->getPost('unidadeSlct');
 
-        $dadosFiltrados = new ProdutoFilter($descricaoTxt, $tipoSlct, 
-                                    $unidadeSlct, $tipoProdutoDAO, $unidadeDAO);
+        $dadosFiltrados = new ProdutoFilter($descricaoTxt, $tipoSlct, $unidadeSlct, $tipoProdutoDAO, $unidadeDAO);
 
         if (!$dadosFiltrados->isValid()) {
             foreach ($dadosFiltrados->getInvalidInput() as $erro) {
@@ -115,9 +111,9 @@ class ManterProdutosController extends AbstractActionController{
         $parametros = new ArrayCollection();
         $parametros->set('descricao', $dadosFiltrados->getValue('descricaoTxt'));
         $parametros->set('tipo', $tipoProdutoDAO->lerPorId(
-                                        $dadosFiltrados->getValue('tipoSlct')));
+                        $dadosFiltrados->getValue('tipoSlct')));
         $parametros->set('unidade', $unidadeDAO->lerPorId(
-                                        $dadosFiltrados->getValue('unidadeSlct')));
+                        $dadosFiltrados->getValue('unidadeSlct')));
 
         try {
             $produtoDAO->salvar($parametros);
@@ -140,16 +136,16 @@ class ManterProdutosController extends AbstractActionController{
         }
         $this->redirect()->toRoute('produtos');
     }
-    
+
     public function buscarAction() {
         $request = $this->getRequest();
         $busca = $this->params()->fromQuery('busca');
-        
+
         if (($busca == null) || (!$request->isGet())) {
             $this->redirect()->toRoute('produtos');
             return;
         }
-        
+
         $parametrosBusca = new ArrayCollection();
         $parametrosBusca->set('descricao', $busca);
 
@@ -164,7 +160,7 @@ class ManterProdutosController extends AbstractActionController{
         $paginator = new Paginator($adapter);
         $paginator->setDefaultItemCountPerPage(10);
         $page = (int) $this->params()->fromQuery('page');
-        
+
         if ($page)
             $paginator->setCurrentPageNumber($page);
 
@@ -174,39 +170,39 @@ class ManterProdutosController extends AbstractActionController{
             $this->flashMessenger()->addErrorMessage("Produto não encontrado.");
             $this->redirect()->toRoute('produtos');
         }
-        
+
         $viewModel = new ViewModel(array(
             'produtos' => $paginator,
             'orderby' => $this->params()->fromQuery('orderby'),
         ));
-        $viewModel->setTemplate('application/manter-tipos-produto/index.phtml');
+        $viewModel->setTemplate('application/manter-produtos/index.phtml');
         return $viewModel;
     }
-    
-    public function editarAction(){
+
+    public function editarAction() {
         $request = $this->getRequest();
         $id = (int) $this->params()->fromRoute('id', 0);
 
         $unidadeDAO = new UnidadeDAO($this->getServiceLocator());
         $tipoProdutoDAO = new TipoProdutoDAO($this->getServiceLocator());
         $produtoDAO = new ProdutoDAO($this->getServiceLocator());
-        
-        if($tipoProdutoDAO->getQtdRegistros() == 0){
+
+        if ($tipoProdutoDAO->getQtdRegistros() == 0) {
             $mensagem = "Para editar um produto você deve primeiramente cad";
             $mensagem.= "astrar um tipo de produto.";
             $this->flashMessenger()->addErrorMessage($mensagem);
             $this->redirect()->toRoute('produtos');
             return;
         }
-        
-        if($unidadeDAO->getQtdRegistros() == 0){
+
+        if ($unidadeDAO->getQtdRegistros() == 0) {
             $mensagem = "Para editar um produto você deve primeiramente cad";
             $mensagem.= "astrar uma unidade.";
             $this->flashMessenger()->addErrorMessage($mensagem);
             $this->redirect()->toRoute('produtos');
             return;
         }
-        
+
         $produto = $produtoDAO->lerPorId($id);
 
         if ($produto == NULL) {
@@ -214,7 +210,7 @@ class ManterProdutosController extends AbstractActionController{
             $this->redirect()->toRoute('produtos');
             return;
         }
-        
+
         if (!$request->isPost()) {
             $unidades = $unidadeDAO->lerRepositorio();
             $tiposProduto = $tipoProdutoDAO->lerRepositorio();
@@ -229,8 +225,7 @@ class ManterProdutosController extends AbstractActionController{
         $tipoSlct = $request->getPost('tipoSlct');
         $unidadeSlct = $request->getPost('unidadeSlct');
 
-        $dadosFiltrados = new ProdutoFilter($descricaoTxt, $tipoSlct, 
-                                    $unidadeSlct, $tipoProdutoDAO, $unidadeDAO);
+        $dadosFiltrados = new ProdutoFilter($descricaoTxt, $tipoSlct, $unidadeSlct, $tipoProdutoDAO, $unidadeDAO);
 
         if (!$dadosFiltrados->isValid()) {
             foreach ($dadosFiltrados->getInvalidInput() as $erro) {
@@ -245,9 +240,9 @@ class ManterProdutosController extends AbstractActionController{
         $parametros = new ArrayCollection();
         $parametros->set('descricao', $dadosFiltrados->getValue('descricaoTxt'));
         $parametros->set('tipo', $tipoProdutoDAO->lerPorId(
-                                        $dadosFiltrados->getValue('tipoSlct')));
+                        $dadosFiltrados->getValue('tipoSlct')));
         $parametros->set('unidade', $unidadeDAO->lerPorId(
-                                        $dadosFiltrados->getValue('unidadeSlct')));
+                        $dadosFiltrados->getValue('unidadeSlct')));
 
         try {
             $produtoDAO->editar($id, $parametros);
@@ -276,10 +271,15 @@ class ManterProdutosController extends AbstractActionController{
             try {
                 $produtoDAO = new ProdutoDAO($this->getServiceLocator());
                 $produtoDAO->excluir($id);
-            }catch (\Exception $e) {
-                echo $e;
-                $mensagem = "Ocorreu um erro na operação, tente novamente ou ";
-                $mensagem.= "entre em contato com um administrador do sistema.";
+            } catch (\Exception $e) {
+                $needle = 'SQLSTATE[23000]: Integrity constraint violation';
+                if(strpos($e->getMessage(), $needle)){
+                    $mensagem = "Este produto não pode ser excluído pois existe "; 
+                    $mensagem.= "um preço cadastrado referente a ele.";
+                }else{
+                    $mensagem = "Ocorreu um erro na operação, tente novamente ou ";
+                    $mensagem.= "entre em contato com um administrador do sistema.";
+                }
                 $this->flashMessenger()->addErrorMessage($mensagem);
                 $this->redirect()->toRoute('produtos');
             }
@@ -288,8 +288,8 @@ class ManterProdutosController extends AbstractActionController{
             $this->redirect()->toRoute('produtos');
         }
     }
-    
-    public function visualizarAction(){
+
+    public function visualizarAction() {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             $this->flashMessenger()->addMessage("Produto não encotrado");
@@ -310,5 +310,24 @@ class ManterProdutosController extends AbstractActionController{
             $this->flashMessenger()->addMessage("Produto não encotrado");
             $this->redirect()->toRoute('produtos');
         }
+    }
+
+    public function autoCompleteAction(){
+        $termo = $this->params()->fromQuery('term');
+        $produtoDAO = new ProdutoDAO($this->getServiceLocator());
+        $parametro = new ArrayCollection();
+        $parametro->set('descricao', $termo . '%');
+        $produtos = $produtoDAO->busca($parametro)->getResult();
+
+        $json = '[';
+        foreach ($produtos as $key => $produto) {
+            if ($key != 0)
+                $json .= ',';
+            $json.= '{"value":"' . $produto->getDescricao() . '"}';
+        }
+        $json.= ']';
+
+        echo $json;
+        die();
     }
 }

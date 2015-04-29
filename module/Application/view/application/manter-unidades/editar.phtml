@@ -43,7 +43,7 @@ if($this->unidade!=NULL){
 <? $this->headScript()->captureStart(); ?>
 
 $(document).ready(function(){
-    $('input[type=text]').blur(function() {
+    $('input[type=text]').keyup(function() {
         $(this).val($(this).val().toUpperCase());
     });
  

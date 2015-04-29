@@ -9,6 +9,14 @@
 namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\Iterator;
+use Zend\View\Model\ViewModel;
+
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Application\DAL\OperadorDAO;
 /**
  * Description of ManterOperadoresController
  *
@@ -70,6 +78,30 @@ class ManterOperadoresController extends AbstractActionController {
                 $this->flashMessenger()->addErrorMessage($mensagem);
                 $this->redirect()->toRoute('autenticar');
              }
+        }
+    }
+    
+    public function indexAction() {
+         $request = $this->getRequest();
+
+        if (!$request->isPost()) {
+            $operadorDAO = new OperadorDAO($this->getServiceLocator());
+
+            $ormPaginator = new ORMPaginator($operadorDAO->lerTodos());
+            $ormPaginatorIterator = $ormPaginator->getIterator();
+
+            $adapter = new Iterator($ormPaginatorIterator);
+
+            $paginator = new Paginator($adapter);
+            $paginator->setDefaultItemCountPerPage(10);
+            $page = (int) $this->params()->fromQuery('page');
+            if ($page) {
+                $paginator->setCurrentPageNumber($page);
+            }
+            return array(
+                'usuarios' => $paginator,
+                'orderby' => $this->params()->fromQuery('orderby'),
+            );
         }
     }
     

@@ -49,6 +49,7 @@
             ->prependFile($this->basePath() . '/js/jquery-ui.custom.min.js')
             ->prependFile($this->basePath() . '/js/jquery.mask.min.js')
             ->prependFile($this->basePath() . '/js/additional-methods.min.js')
+            ->prependFile($this->basePath() . '/js/jquery.validate.DateBR.js')
             ->prependFile($this->basePath() . '/js/jquery.validate.min.js')
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery.min.js')
@@ -63,8 +64,8 @@
             <?php if($this->usuarioNivel != 'guest'): ?>
                 <div class="navbar navbar-default" id="menu">
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a href="#">Preços</a>
+                        <li <?=$this->MenuAtivo($this->url('precos'))?>>
+                            <a href="/precos">Preços</a>
                         </li>
                         <li <?=$this->MenuAtivo($this->url('unidades'))?>
                             <?=$this->MenuAtivo($this->url('tiposproduto'))?>
@@ -80,7 +81,8 @@
                         <li <?=$this->MenuAtivo($this->url('secretarias'))?>>
                             <a href="/secretarias">Secretarias</a>
                         </li>
-                        <li><a href="#">Usuários</a></li>
+                        <li <?=$this->MenuAtivo($this->url('operadores'))?>>
+                            <a href="/operadores">Usuários</a></li>
                         <li><a href="/logout">Sair</a></li>
                     </ul>
                 </div>

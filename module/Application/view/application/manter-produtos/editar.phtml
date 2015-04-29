@@ -1,18 +1,21 @@
 <?php 
 
 if($this->produto!=NULL){
+    $acao = 'Adicionar';    
     $id = $this->produto->getIdProduto();
     $descricao = $this->produto->getDescricao();
     $_unidade = $this->produto->getUnidade();
     $_tipo = $this->produto->getTipo();
-}  
+}  else{
+        $acao = 'Editar';
+}
 
 ?>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">Adicionar novo produto</h3>
+                <h3 class="panel-title"><?=$acao?> produto</h3>
             </div>
             <?php if($this->produto == NULL):?>
                 <form class="form-horizontal" id="produto-form" role="form" method="POST" action="<?php echo $this->url('produtos', array('action' => 'adicionar')); ?>">
@@ -28,12 +31,10 @@ if($this->produto!=NULL){
                             <option>----Selecione um tipo de produto----</option>
                             
                             <?  foreach ($this->tiposProduto as $tipoProduto):?>
-                                <?if($id != $tipoProduto->getIdTipoProduto()):?>
-                                    <?if($tipoProduto->getDescricao() == $_tipo):?>
-                                        <option value="<?=$tipoProduto->getIdTipoProduto()?>" selected="selected"><?=$tipoProduto->getDescricao()?></option>
-                                    <?else:?>
-                                        <option value="<?=$tipoProduto->getIdTipoProduto()?>"><?=$tipoProduto->getDescricao()?></option>
-                                    <?endif;?>
+                                <?if($tipoProduto->getDescricao() == $_tipo):?>
+                                    <option value="<?=$tipoProduto->getIdTipoProduto()?>" selected="selected"><?=$tipoProduto->getDescricao()?></option>
+                                <?else:?>
+                                    <option value="<?=$tipoProduto->getIdTipoProduto()?>"><?=$tipoProduto->getDescricao()?></option>
                                 <?endif;?>
                             <?  endforeach;?>
                         </select>
@@ -81,7 +82,7 @@ if($this->produto!=NULL){
 <? $this->headScript()->captureStart(); ?>
 
 $(document).ready(function(){
-    $('input[type=text]').blur(function() {
+    $('input[type=text]').keyup(function() {
         $(this).val($(this).val().toUpperCase());
     });
  
@@ -125,9 +126,9 @@ $(document).ready(function(){
                 minlength: 5,
                 maxlength: 255,
                 messages: {
-                    required: "A descricao do produto é obrigatório.",
-                    minlength: "A descricao do produto deve ter no mínimo 5 caracteres.",
-                    maxlength: "A descricao do produto deve ter no máximo 255 caracteres.",
+                    required: "A descricao do produto é obrigatório.<br>",
+                    minlength: "A descricao do produto deve ter no mínimo 5 caracteres.<br>",
+                    maxlength: "A descricao do produto deve ter no máximo 255 caracteres.<br>",
                 }
     });
 });

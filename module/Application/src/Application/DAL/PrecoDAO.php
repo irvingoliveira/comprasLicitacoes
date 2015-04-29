@@ -29,4 +29,4 @@ class PrecoDAO extends GenericDAO{
     public function __construct(ServiceManager $serviceManager) {
         parent::__construct($serviceManager);
     }
-}
+  }

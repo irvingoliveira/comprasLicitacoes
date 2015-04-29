@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-md-10 col-sm-offset-1">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Preços</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-2">
+                    <a href="<?=$this->url('precos', array('action' => 'adicionar'))?>" class="btn btn-success btn-add" title="Novo"><span class="glyphicon glyphicon-plus"></span>Novo preço</a>
+                </div>
+                <form method="GET" action="<?=$this->url('precos', array('action' => 'buscar'))?>">
+                    <div class="col-sm-offset-4 col-sm-5">
+                        <input type="text" id="busca" name="busca" class="form-control" placeholder="Pesquisar preços" maxlength="150">
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+                        </a>
+                    </div>
+                </form>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>Produto</th>
+                        <th>Valor unitário</th>
+                        <th>Pregão</th>
+                        <th>Data do pregão</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <? foreach ($this->precos as $key => $preco): ?>
+                        <tr>
+                            <td class="col-sd-2"><?= $preco->getProduto()->getTipo()
+                                              .' - '.$preco->getProduto() ?></td>                          
+                            <td class="col-sd-2"><?= number_format($preco->getValor(), 2, ',', '.'); ?></td>               
+                            <td class="col-sd-2"><?= $preco->getPregao() ?></td>               
+                            <td class="col-sd-2"><?= $preco->getDataPregao()->format('d/m/Y') ?></td>               
+                            <td class="col-sd-2 btns">
+                                <a class="btn btn-xs btn-info" title="Visualizar" href="/precos/visualizar/<?=$preco->getIdPreco()?>"><span class="glyphicon glyphicon-new-window"></span></a>
+                                <a class="btn btn-xs btn-warning" title="Editar" href="/precos/editar/<?=$preco->getIdPreco()?>"><span class="glyphicon glyphicon-edit"></span></a>
+                            </td>
+                        </tr>
+                    <? endforeach; ?>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                        // the paginator object
+                        $this->precos,
+                        // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+                        'sliding',
+                        // the partial to use to render the control
+                        array('partial/paginator.phtml', 'Precos'),
+                        // the route to link to when a user clicks a control link
+                        array(
+                    'route' => 'precos',
+                    'orderby' => $this->orderby,
+                        )
+                );
+                ?>
+                <?php if(isset($_GET['busca'])):?>
+                    <div class="panel-footer center">
+                        <a href="<?=$this->url('precos', array('action' => 'index'))?>" class="btn btn-default" title="Voltar"><span class="glyphicon glyphicon-backward"></span> Voltar</a>
+                    </div>
+                <?php endif;?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<? $this->headScript()->captureStart(); ?>
+  $(function() {
+    $( "#busca" ).autocomplete({
+      source: '/produtos/autocomplete'
+    });
+  });
+<? $this->headScript()->captureEnd(); ?>

@@ -148,7 +148,7 @@ class ManterTiposProdutoController extends AbstractActionController{
         }
         
         $viewModel = new ViewModel(array(
-            'tiposproduto' => $paginator,
+            'tiposProduto' => $paginator,
             'orderby' => $this->params()->fromQuery('orderby'),
         ));
         $viewModel->setTemplate('application/manter-tipos-produto/index.phtml');
@@ -194,8 +194,13 @@ class ManterTiposProdutoController extends AbstractActionController{
 
         $parametros = new ArrayCollection();
         $parametros->set('descricao', $dadosFiltrados->getValue('descricaoTxt'));
-        $parametros->set('tipoPai', $tipoProdutoDAO->lerPorId(
-                                    $dadosFiltrados->getValue('tipoPaiSlct')));
+
+        if(is_null($dadosFiltrados->getValue('tipoPaiSlct'))){
+            $parametros->set('tipoPai', 'NULL');
+        }else{
+            $parametros->set('tipoPai', $tipoProdutoDAO->lerPorId(
+                                        $dadosFiltrados->getValue('tipoPaiSlct')));
+        }
 
         try {
             $tipoProdutoDAO->editar($id, $parametros);
